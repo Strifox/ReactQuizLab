@@ -5,12 +5,18 @@ import 'isomorphic-fetch';
 
 let counter: number;
 counter = 0;
+
+let score: number;
+score = 0;
+
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
     loading: boolean;
     questions: Question[];
     selectedAnswer: string;
+    scoreState: number;
+    submitText: string;
 }
 interface Question {
     _question: string;
@@ -29,7 +35,12 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             loading: false,
             questions: [],
             selectedAnswer: '',
+            scoreState: 0,
+            submitText: ''
         };
+
+        this.Submit = this.Submit.bind(this);
+        this.handleAnswer = this.handleAnswer.bind(this);
 
         fetch('api/Questions')
             .then(response => response.json() as Promise<Question[]>)
@@ -79,12 +90,25 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         checked={this.state.selectedAnswer === 'D'}
                         value="D" /> {question[counter1].answerD}</label>
             </ul>
-
+            <button onClick={this.Submit}> Submit </button>
         </div>;
 
     }
     handleAnswer(event: any) {
         this.setState({ selectedAnswer: event.target.value })
     }
+    public Submit(event: any) {
+
+        if (this.state.questions[counter].correctAnswer === this.state.selectedAnswer) {
+            score++;
+            this.setState({ scoreState: score });
+            this.setState({ submitText: "Correct"})
+        }
+        else {
+            this.setState({ submitText: "Wrong Answer!" });
+
+        }
+    }
+
 
 }
