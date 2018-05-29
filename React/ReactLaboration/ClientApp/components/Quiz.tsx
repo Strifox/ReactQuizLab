@@ -2,15 +2,13 @@
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
-
-let counter: number;
-counter = 0;
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
     loading: boolean;
     questions: Question[];
     selectedAnswer: string;
+    counter: number;
 }
 interface Question {
     _question: string;
@@ -29,7 +27,10 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             loading: false,
             questions: [],
             selectedAnswer: '',
+            counter: 0
         };
+        this.handleNextQuestion = this.handleNextQuestion.bind(this);
+        this.handleAnswer = this.handleAnswer.bind(this);
 
         fetch('api/Questions')
             .then(response => response.json() as Promise<Question[]>)
@@ -39,6 +40,8 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     public render() {
+        let counter = this.state.counter;
+
         let contents = this.state.loading
             ? this.renderQuestionTable(this.state.questions, counter)
             : <p><em>Loading...</em></p>;
@@ -79,12 +82,20 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         checked={this.state.selectedAnswer === 'D'}
                         value="D" /> {question[counter1].answerD}</label>
             </ul>
-
+            <input type="button" value="Next" onClick={this.handleNextQuestion}></input>
         </div>;
 
     }
+
     handleAnswer(event: any) {
         this.setState({ selectedAnswer: event.target.value })
+    }
+
+    handleNextQuestion(event: any)
+    {
+        let count = this.state.counter + 1;
+        this.setState({ counter: count });
+        this.setState({ selectedAnswer: '' });
     }
 
 }

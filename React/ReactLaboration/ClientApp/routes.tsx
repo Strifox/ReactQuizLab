@@ -5,7 +5,7 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { AddQuestion } from './components/AddQuestion'
-import { Quiz } from './components/Quiz'
+import { Quiz } from './components/Quiz';
 
 
 export const routes = <Layout>
