@@ -2,13 +2,8 @@
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
 
-
-let counter: number;
-counter = 0;
-
-let score: number;
 score = 0;
-
+let score: number;
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
@@ -17,6 +12,7 @@ interface IQuizQuestionState {
     selectedAnswer: string;
     scoreState: number;
     submitText: string;
+    counter: number;
 }
 interface Question {
     _question: string;
@@ -35,9 +31,12 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             loading: false,
             questions: [],
             selectedAnswer: '',
+            counter: 0
             scoreState: 0,
             submitText: ''
         };
+        this.handleNextQuestion = this.handleNextQuestion.bind(this);
+        this.handleAnswer = this.handleAnswer.bind(this);
 
         this.Submit = this.Submit.bind(this);
         this.handleAnswer = this.handleAnswer.bind(this);
@@ -50,6 +49,8 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     public render() {
+        let counter = this.state.counter;
+
         let contents = this.state.loading
             ? this.renderQuestionTable(this.state.questions, counter)
             : <p><em>Loading...</em></p>;
@@ -90,10 +91,12 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         checked={this.state.selectedAnswer === 'D'}
                         value="D" /> {question[counter1].answerD}</label>
             </ul>
+            <input type="button" value="Next" onClick={this.handleNextQuestion}></input>
             <button onClick={this.Submit}> Submit </button>
         </div>;
 
     }
+
     handleAnswer(event: any) {
         this.setState({ selectedAnswer: event.target.value })
     }
@@ -110,5 +113,12 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         }
     }
 
+
+    handleNextQuestion(event: any)
+    {
+        let count = this.state.counter + 1;
+        this.setState({ counter: count });
+        this.setState({ selectedAnswer: '' });
+    }
 
 }
