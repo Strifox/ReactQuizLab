@@ -1,9 +1,12 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import 'isomorphic-fetch';
+import { Counter } from './Counter';
 
-score = 0;
 let score: number;
+score = 0;
+let counter: number;
+counter = 0;
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
@@ -31,7 +34,7 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             loading: false,
             questions: [],
             selectedAnswer: '',
-            counter: 0
+            counter: 0,
             scoreState: 0,
             submitText: ''
         };
@@ -67,29 +70,29 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         id='answerA'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'A'}
-                        value="A" /> {question[counter1].answerA}</label>
+                        checked={this.state.selectedAnswer === question[counter1].answerA}
+                        value={question[counter1].answerA} /> {question[counter1].answerA}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerB'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'B'}
-                        value="B" /> {question[counter1].answerB}</label>
+                        checked={this.state.selectedAnswer === question[counter1].answerB}
+                        value={question[counter1].answerB} /> {question[counter1].answerB}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerC'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'C'}
-                        value="C" /> {question[counter1].answerC}</label>
+                        checked={this.state.selectedAnswer === question[counter1].answerC}
+                        value={question[counter1].answerC}/> {question[counter1].answerC}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerD'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'D'}
-                        value="D" /> {question[counter1].answerD}</label>
+                        checked={this.state.selectedAnswer === question[counter1].answerD}
+                        value={question[counter1].answerD} /> {question[counter1].answerD}</label>
             </ul>
             <input type="button" value="Next" onClick={this.handleNextQuestion}></input>
             <button onClick={this.Submit}> Submit </button>
@@ -102,14 +105,15 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
     public Submit(event: any) {
 
-        if (this.state.questions[counter].correctAnswer === this.state.selectedAnswer) {
+        if (this.state.questions[this.state.counter].correctAnswer === this.state.selectedAnswer) {
             score++;
             this.setState({ scoreState: score });
-            this.setState({ submitText: "Correct"})
+            this.setState({ submitText: "Correct" })
+            console.log("Correct");
         }
         else {
             this.setState({ submitText: "Wrong Answer!" });
-
+            console.log('Wrong answer')
         }
     }
 
