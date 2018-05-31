@@ -1,9 +1,12 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps, Redirect } from 'react-router';
 import 'isomorphic-fetch';
+import { Counter } from './Counter';
+
 
 let Points: number;
 Points = 0;
+
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
@@ -87,16 +90,16 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                     <input onChange={this.handleAnswer}
                         id='answerC'
                         type="radio"
-                        name="answer"
+                        name="
                         disabled={this.state.isDisabledBtnRadio}
                         checked={this.state.selectedAnswer === question[counter1].answerC}
-                        value={question[counter1].answerC} /> {question[counter1].answerC}</label>
+                        value={question[counter1].answerC} /> {question[counter1].answerC
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerD'
                         type="radio"
                         name="answer"
-                        disabled={this.state.isDisabledBtnRadio}
+                        disabled={this.state.isDisabledBtnRadio
                         checked={this.state.selectedAnswer === question[counter1].answerD}
                         value={question[counter1].answerD} /> {question[counter1].answerD}</label>
             </ul>
