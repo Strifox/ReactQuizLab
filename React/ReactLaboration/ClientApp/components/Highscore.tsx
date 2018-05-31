@@ -12,7 +12,9 @@ interface IScoreState {
 
 interface Scores {
     points: number;
+    userName: string;
 }
+
 
 export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreState> {
     constructor() {
@@ -25,11 +27,13 @@ export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreSt
         fetch('api/Scores')
             .then(response => response.json() as Promise<Scores[]>)
             .then(data => {
+                console.log('highscore fetch data',data)
                 this.setState({ PointState: data, loading: true});
             })
     }
 
     public render() {
+        console.log('hiscore render ', this.state.PointState)
         let contents = this.state.loading
             ? this.renderHighscoreTable(this.state.PointState)
             : <p><em>Loading...</em></p>;
@@ -45,12 +49,14 @@ export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreSt
             <thead>
                 <tr>
                     <th>Points</th>
+                    <th>User </th>
                 </tr>
             </thead>
             <tbody>
                 {score.map(score =>
-                    <tr key={score.points}>
+                    <tr key={score.userName}>
                         <td>{score.points}</td>
+                        <td>{score.userName}!</td>
                     </tr>
                 )}
             </tbody>

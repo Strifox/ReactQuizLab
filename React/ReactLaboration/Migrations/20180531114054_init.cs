@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ReactLaboration.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -201,6 +201,7 @@ namespace ReactLaboration.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     QuizId = table.Column<int>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
                     points = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

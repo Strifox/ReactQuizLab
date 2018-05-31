@@ -9,6 +9,7 @@ namespace ReactLaboration.Models
     {
         public int Id { get; set; }
         public int points { get; set; }
+        public string UserName { get; set; }
 
         public User User { get; set; }
         public Quiz Quiz { get; set; }

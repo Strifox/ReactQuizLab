@@ -232,6 +232,8 @@ namespace ReactLaboration.Migrations
 
                     b.Property<string>("UserId");
 
+                    b.Property<string>("UserName");
+
                     b.Property<int>("points");
 
                     b.HasKey("Id");

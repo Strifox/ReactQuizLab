@@ -12,8 +12,8 @@ using System;
 namespace ReactLaboration.Migrations
 {
     [DbContext(typeof(QuizContext))]
-    [Migration("20180531105825_Init")]
-    partial class Init
+    [Migration("20180531114054_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -232,6 +232,8 @@ namespace ReactLaboration.Migrations
                     b.Property<int?>("QuizId");
 
                     b.Property<string>("UserId");
+
+                    b.Property<string>("UserName");
 
                     b.Property<int>("points");
 

@@ -3,8 +3,10 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import 'isomorphic-fetch';
 import { Counter } from './Counter';
 
+
 let Points: number;
 Points = 0;
+
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
@@ -17,6 +19,7 @@ interface IQuizQuestionState {
     isHiddenBtnNext: boolean;
     isHiddenBtnSubmit: boolean;
     isDisabledBtnRadio: boolean;
+    userName: string;
 }
 interface Question {
     _question: string;
@@ -26,6 +29,7 @@ interface Question {
     answerD: string;
     correctAnswer: string;
 }
+
 
 
 export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState> {
@@ -40,12 +44,14 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             submitText: '',
             isHiddenBtnNext: false,
             isHiddenBtnSubmit: true,
-            isDisabledBtnRadio: false
+            isDisabledBtnRadio: false,
+            userName: ''
         };
         this.handleNextQuestion = this.handleNextQuestion.bind(this);
         this.handleAnswer = this.handleAnswer.bind(this);
         this.submitScore = this.submitScore.bind(this);
         this.Submit = this.Submit.bind(this);
+        this.handleChangeName = this.handleChangeName.bind(this);
 
         fetch('api/Questions')
             .then(response => response.json() as Promise<Question[]>)
@@ -60,12 +66,14 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         let contents = this.state.loading
             ? this.renderQuestionTable(this.state.questions, counter)
             : <p><em>Loading...</em></p>;
-
-        return <div> {contents}</div>;
+        console.log(this.state.userName)
+        return <div> {contents} </div>;
     }
 
     public renderQuestionTable(question: Question[], counter1: number) {
         return <div>
+            <h3>Skriv in ditt namn:</h3>
+                <input type="text" onChange={this.handleChangeName} name="username"></input>
             <ul className="list-group">
                 <div className="list-group-item"><h3>{question[counter1]._question}</h3><span className="questionCounter">{counter1 + 1} / {question.length}</span></div>
                 <label className="list-group-item">
@@ -137,6 +145,10 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         }
     }
 
+    handleChangeName(event: any) {
+        this.setState({ userName: event.target.value})
+    }
+
 
     handleNextQuestion(event: any)
     {
@@ -150,7 +162,7 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     submitScore(Points: number) {
-        fetch('api/Scores/AddScore?points=' + Points)
+        fetch('api/Scores/AddScore?UserName=' + this.state.userName + '&points=' + Points)
             .then(response => console.log('Status: ', response.status));
     }
 
