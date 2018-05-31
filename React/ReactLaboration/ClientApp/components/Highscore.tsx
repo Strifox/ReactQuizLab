@@ -11,7 +11,7 @@ interface IScoreState {
 }
 
 interface Scores {
-    Points: number;
+    points: number;
 }
 
 export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreState> {
@@ -40,7 +40,7 @@ export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreSt
     }
 
     public renderHighscoreTable(score: Scores[]) {
-        console.log(score[0].Points)
+        console.log(score[0].points)
         return <table className='table'>
             <thead>
                 <tr>
@@ -49,8 +49,8 @@ export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreSt
             </thead>
             <tbody>
                 {score.map(score =>
-                    <tr>
-                        <td>{score.Points}</td>
+                    <tr key={score.points}>
+                        <td>{score.points}</td>
                     </tr>
                 )}
             </tbody>

@@ -150,7 +150,7 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     submitScore(Points: number) {
-        fetch('api/Scores/AddScore?Points=' + Points)
+        fetch('api/Scores/AddScore?points=' + Points)
             .then(response => console.log('Status: ', response.status));
     }
 

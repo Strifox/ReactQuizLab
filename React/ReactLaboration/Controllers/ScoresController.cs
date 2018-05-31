@@ -53,11 +53,12 @@ namespace ReactLaboration.Controllers
 
         [Route("AddScore")]
         [HttpGet]
-        public string AddScore(int Points)
+        public async Task<string> AddScore(int points)
         {
             Score newScore = new Score
             {
-                Points = Points
+                points = points,
+                User = await userManager.GetUserAsync(User)
             };
 
             _context.Scores.Add(newScore);
