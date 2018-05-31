@@ -30,7 +30,7 @@ namespace ReactLaboration.Controllers
         [HttpGet]
         public IEnumerable<Score> GetScores()
         {
-            return _context.Scores;
+            return _context.Scores.OrderByDescending(p => p.points);
         }
 
         // GET: api/Scores/5

@@ -19,6 +19,11 @@ interface IQuizQuestionState {
     isHiddenBtnNext: boolean;
     isHiddenBtnSubmit: boolean;
     isDisabledBtnRadio: boolean;
+    isQuizVisible: boolean;
+    isNameTextboxAndLabelVisible: boolean;
+    isStartQuizVisible: boolean;
+    isGetResultsButtonVisible: boolean;
+    isResultsVisible: boolean;
     userName: string;
 }
 interface Question {
@@ -45,6 +50,11 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             isHiddenBtnNext: false,
             isHiddenBtnSubmit: true,
             isDisabledBtnRadio: false,
+            isQuizVisible: false,
+            isNameTextboxAndLabelVisible: true,
+            isStartQuizVisible: true,
+            isGetResultsButtonVisible: false,
+            isResultsVisible: false,
             userName: ''
         };
         this.handleNextQuestion = this.handleNextQuestion.bind(this);
@@ -52,6 +62,8 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         this.submitScore = this.submitScore.bind(this);
         this.Submit = this.Submit.bind(this);
         this.handleChangeName = this.handleChangeName.bind(this);
+        this.StartQuiz = this.StartQuiz.bind(this);
+        this.GetResults = this.GetResults.bind(this);
 
         fetch('api/Questions')
             .then(response => response.json() as Promise<Question[]>)
@@ -72,9 +84,12 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
 
     public renderQuestionTable(question: Question[], counter1: number) {
         return <div>
-            <h3>Skriv in ditt namn:</h3>
-                <input type="text" onChange={this.handleChangeName} name="username"></input>
-            <ul className="list-group">
+            <h3 hidden={!this.state.isNameTextboxAndLabelVisible}>Skriv in ditt namn:</h3>
+            <input type="text" onChange={this.handleChangeName} name="username" hidden={!this.state.isNameTextboxAndLabelVisible}></input>
+
+            <input type="button" onClick={this.StartQuiz} value="Start Quiz!" hidden={!this.state.isStartQuizVisible}></input>
+
+            <ul className="list-group" hidden={!this.state.isQuizVisible}>
                 <div className="list-group-item"><h3>{question[counter1]._question}</h3><span className="questionCounter">{counter1 + 1} / {question.length}</span></div>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
@@ -108,16 +123,30 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         disabled={this.state.isDisabledBtnRadio}
                         checked={this.state.selectedAnswer === question[counter1].answerD}
                         value={question[counter1].answerD} /> {question[counter1].answerD}</label>
-            </ul>
+                <br/>
             <button hidden={!this.state.isHiddenBtnSubmit} onClick={this.Submit}> Submit </button>
             <p>{this.state.submitText}</p>
-            <input hidden={!this.state.isHiddenBtnNext} type="button" value="Next" onClick={this.handleNextQuestion}></input>
+                <input hidden={!this.state.isHiddenBtnNext} type="button" value="Next" onClick={this.handleNextQuestion}></input>
+                <input hidden={!this.state.isGetResultsButtonVisible} type="button" value="Get results" onClick={this.GetResults}></input>
+                <div hidden={!this.state.isResultsVisible}>
+                    <p>Well done {this.state.userName}!</p>
+                    <p>You got {Points} points</p>
+                </div>
+            </ul>
         </div>;
 
     }
 
     handleAnswer(event: any) {
         this.setState({ selectedAnswer: event.target.value })
+    }
+
+    StartQuiz(event: any) {
+        this.setState({ isQuizVisible: true });
+        this.setState({ isStartQuizVisible: false });
+        this.setState({ isNameTextboxAndLabelVisible: false });
+        this.setState({ scoreState: 0 });
+        Points = 0;
     }
 
     public Submit(event: any) {
@@ -141,12 +170,18 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
 
     checkIfLastQuestion(Points: number) {
         if (this.state.counter + 1 == this.state.questions.length) {
+            this.setState({ isHiddenBtnNext: false });
+            this.setState({ isGetResultsButtonVisible: true });
             this.submitScore(Points);
         }
     }
 
     handleChangeName(event: any) {
         this.setState({ userName: event.target.value})
+    }
+
+    GetResults(event: any) {
+        this.setState({ isResultsVisible: true });
     }
 
 
@@ -164,6 +199,8 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     submitScore(Points: number) {
         fetch('api/Scores/AddScore?UserName=' + this.state.userName + '&points=' + Points)
             .then(response => console.log('Status: ', response.status));
+
+        this.setState({ scoreState: 0 });
     }
 
 }
