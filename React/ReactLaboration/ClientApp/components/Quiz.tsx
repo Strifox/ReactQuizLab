@@ -3,10 +3,8 @@ import { RouteComponentProps, Redirect } from 'react-router';
 import 'isomorphic-fetch';
 import { Counter } from './Counter';
 
-
 let Points: number;
 Points = 0;
-
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
@@ -90,16 +88,16 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                     <input onChange={this.handleAnswer}
                         id='answerC'
                         type="radio"
-                        name="
+                        name="answer"
                         disabled={this.state.isDisabledBtnRadio}
                         checked={this.state.selectedAnswer === question[counter1].answerC}
-                        value={question[counter1].answerC} /> {question[counter1].answerC
+                        value={question[counter1].answerC} /> {question[counter1].answerC}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerD'
                         type="radio"
                         name="answer"
-                        disabled={this.state.isDisabledBtnRadio
+                        disabled={this.state.isDisabledBtnRadio}
                         checked={this.state.selectedAnswer === question[counter1].answerD}
                         value={question[counter1].answerD} /> {question[counter1].answerD}</label>
             </ul>
@@ -152,7 +150,7 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     submitScore(Points: number) {
-        fetch('api/Scores/AddScore?Points=' + Points)
+        fetch('api/Scores/AddScore?points=' + Points)
             .then(response => console.log('Status: ', response.status));
     }
 
