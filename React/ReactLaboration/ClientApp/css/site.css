@@ -10,6 +10,11 @@
     color: white;
 }
 
+.questionCounter {
+    margin: 0px;
+    padding: 0px;
+}
+
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
     position: fixed;
