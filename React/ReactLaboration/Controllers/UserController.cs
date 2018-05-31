@@ -15,7 +15,6 @@ using ReactLaboration.Models;
 namespace ReactLaboration.Controllers
 {
    
-
     public class AccountController : Controller
     {
         private readonly UserManager<User> _userManager;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -53,12 +54,12 @@ namespace ReactLaboration.Controllers
 
         [Route("AddScore")]
         [HttpGet]
-        public async Task<string> AddScore(int points)
+        public string AddScore(string UserName,int points)
         {
             Score newScore = new Score
             {
                 points = points,
-                User = await userManager.GetUserAsync(User)
+                UserName = UserName
             };
 
             _context.Scores.Add(newScore);
