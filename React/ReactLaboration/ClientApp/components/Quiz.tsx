@@ -1,9 +1,9 @@
 ﻿import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps, Redirect } from 'react-router';
 import 'isomorphic-fetch';
 
-score = 0;
-let score: number;
+let Points: number;
+Points = 0;
 interface IQuizQuestionProps {
 }
 interface IQuizQuestionState {
@@ -13,6 +13,9 @@ interface IQuizQuestionState {
     scoreState: number;
     submitText: string;
     counter: number;
+    isHiddenBtnNext: boolean;
+    isHiddenBtnSubmit: boolean;
+    isDisabledBtnRadio: boolean;
 }
 interface Question {
     _question: string;
@@ -31,15 +34,17 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             loading: false,
             questions: [],
             selectedAnswer: '',
-            counter: 0
+            counter: 0,
             scoreState: 0,
-            submitText: ''
+            submitText: '',
+            isHiddenBtnNext: false,
+            isHiddenBtnSubmit: true,
+            isDisabledBtnRadio: false
         };
         this.handleNextQuestion = this.handleNextQuestion.bind(this);
         this.handleAnswer = this.handleAnswer.bind(this);
-
+        this.submitScore = this.submitScore.bind(this);
         this.Submit = this.Submit.bind(this);
-        this.handleAnswer = this.handleAnswer.bind(this);
 
         fetch('api/Questions')
             .then(response => response.json() as Promise<Question[]>)
@@ -61,38 +66,43 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     public renderQuestionTable(question: Question[], counter1: number) {
         return <div>
             <ul className="list-group">
-                <div className="list-group-item"><h3>{question[counter1]._question}</h3></div>
+                <div className="list-group-item"><h3>{question[counter1]._question}</h3><span className="questionCounter">{counter1 + 1} / {question.length}</span></div>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerA'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'A'}
-                        value="A" /> {question[counter1].answerA}</label>
+                        disabled={this.state.isDisabledBtnRadio}
+                        checked={this.state.selectedAnswer === question[counter1].answerA}
+                        value={question[counter1].answerA} /> {question[counter1].answerA}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerB'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'B'}
-                        value="B" /> {question[counter1].answerB}</label>
+                        disabled={this.state.isDisabledBtnRadio}
+                        checked={this.state.selectedAnswer === question[counter1].answerB}
+                        value={question[counter1].answerB} /> {question[counter1].answerB}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerC'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'C'}
-                        value="C" /> {question[counter1].answerC}</label>
+                        disabled={this.state.isDisabledBtnRadio}
+                        checked={this.state.selectedAnswer === question[counter1].answerC}
+                        value={question[counter1].answerC} /> {question[counter1].answerC}</label>
                 <label className="list-group-item">
                     <input onChange={this.handleAnswer}
                         id='answerD'
                         type="radio"
                         name="answer"
-                        checked={this.state.selectedAnswer === 'D'}
-                        value="D" /> {question[counter1].answerD}</label>
+                        disabled={this.state.isDisabledBtnRadio}
+                        checked={this.state.selectedAnswer === question[counter1].answerD}
+                        value={question[counter1].answerD} /> {question[counter1].answerD}</label>
             </ul>
-            <input type="button" value="Next" onClick={this.handleNextQuestion}></input>
-            <button onClick={this.Submit}> Submit </button>
+            <button hidden={!this.state.isHiddenBtnSubmit} onClick={this.Submit}> Submit </button>
+            <p>{this.state.submitText}</p>
+            <input hidden={!this.state.isHiddenBtnNext} type="button" value="Next" onClick={this.handleNextQuestion}></input>
         </div>;
 
     }
@@ -100,16 +110,29 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     handleAnswer(event: any) {
         this.setState({ selectedAnswer: event.target.value })
     }
-    public Submit(event: any) {
 
-        if (this.state.questions[counter].correctAnswer === this.state.selectedAnswer) {
-            score++;
-            this.setState({ scoreState: score });
-            this.setState({ submitText: "Correct"})
+    public Submit(event: any) {
+        this.setState({ isHiddenBtnNext: true });
+        this.setState({ isHiddenBtnSubmit: false });
+        this.setState({ isDisabledBtnRadio: true });
+
+        if (this.state.questions[this.state.counter].correctAnswer == this.state.selectedAnswer) {
+            Points++;
+            this.setState({ scoreState: Points });
+            this.setState({ submitText: "Correct" })
+            console.log('Correct answer!');
+            this.checkIfLastQuestion(Points);
         }
         else {
             this.setState({ submitText: "Wrong Answer!" });
+            console.log('Wrong answer!')
+            this.checkIfLastQuestion(Points);
+        }
+    }
 
+    checkIfLastQuestion(Points: number) {
+        if (this.state.counter + 1 == this.state.questions.length) {
+            this.submitScore(Points);
         }
     }
 
@@ -119,6 +142,15 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         let count = this.state.counter + 1;
         this.setState({ counter: count });
         this.setState({ selectedAnswer: '' });
+        this.setState({ submitText: '' });
+        this.setState({ isHiddenBtnNext: false });
+        this.setState({ isHiddenBtnSubmit: true });
+        this.setState({ isDisabledBtnRadio: false });
+    }
+
+    submitScore(Points: number) {
+        fetch('api/Scores/AddScore?Points=' + Points)
+            .then(response => console.log('Status: ', response.status));
     }
 
 }
