@@ -90,7 +90,7 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     public renderQuestionTable(question: Question[], counter1: number) {
         return <div>
             <h3 hidden={!this.state.isNameTextboxAndLabelVisible} className="nameLabel">Skriv in ditt namn:</h3>
-            <input type="text" onChange={this.handleChangeName } className="nameInput" id="nameInput" name="username" hidden={!this.state.isNameTextboxAndLabelVisible}></input>
+            <input type="text" onChange={this.handleChangeName} className="nameInput" id="nameInput" value={this.state.userName} name="username" hidden={!this.state.isNameTextboxAndLabelVisible}></input>
             <button className="btn-success GreenBtn" type="button" onClick={this.StartQuiz} hidden={!this.state.isStartQuizVisible}> Start Quiz!</button>
 
             <ul className="list-group" hidden={!this.state.isQuizVisible}>
@@ -153,13 +153,19 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     handleRestartQuiz(event: any) {
-       
+        this.setState({ counter: 0 });
+        let count = this.state.counter;
         this.setState({ isNameTextboxAndLabelVisible: true });
         this.setState({ isStartQuizVisible: true });
         this.setState({ userName: '' });
         Points = 0;
-        this.setState({ counter: 0 });
         this.setState({ isResultsVisible: false });
+        this.setState({ isGetResultsButtonVisible: false });
+        this.setState({ submitText: '' });
+        this.setState({ isDisabledBtnRadio: false });
+        this.setState({ isHiddenBtnSubmit: true });
+        this.setState({ progressClassBar: 'progress-bar progress-bar-striped active' })
+        document.getElementById('progressbar')!.style.width = count / this.state.questions.length * 100 + '%';
     }
 
     StartQuiz(event: any) {
