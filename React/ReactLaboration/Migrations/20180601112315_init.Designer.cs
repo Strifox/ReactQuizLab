@@ -12,7 +12,7 @@ using System;
 namespace ReactLaboration.Migrations
 {
     [DbContext(typeof(QuizContext))]
-    [Migration("20180531114054_init")]
+    [Migration("20180601112315_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

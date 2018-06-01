@@ -32,6 +32,10 @@ export class NavMenu extends React.Component<{}, {}> {
                                 <span className='glyphicon glyphicon-pencil'></span> Add Question
                             </NavLink>
                         </li>
+                    
+                        <li>
+                          <a href="/account/index">Login/Logout</a>
+                        </li>
                     </ul>
                 </div>
             </div>

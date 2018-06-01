@@ -93,11 +93,10 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             <input type="text" onChange={this.handleChangeName} className="nameInput" id="nameInput" value={this.state.userName} name="username" hidden={!this.state.isNameTextboxAndLabelVisible}></input>
             <button className="btn-success GreenBtn" type="button" onClick={this.StartQuiz} hidden={!this.state.isStartQuizVisible}> Start Quiz!</button>
 
+            {console.log(question.length)}
             <ul className="list-group" hidden={!this.state.isQuizVisible}>
-               
                 <div className="list-group-item"><h3>{question[counter1]._question}</h3><span className="questionCounter"> <div className="progress">
-                    <div id="progressbar" className={this.state.progressClassBar} role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{counter1 + 1} / {question.length}
-                        <span className="sr-only"></span>
+                    <div id="progressbar" className={this.state.progressClassBar} role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"> <span className="sr-only"></span>
                     </div>
                 </div></span></div>
                 <label className="list-group-item">
@@ -134,11 +133,13 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         value={question[counter1].answerD} /> {question[counter1].answerD}</label>
                 <br />
                 <button hidden={!this.state.isHiddenBtnSubmit} className="btn-success GreenBtn" onClick={this.Submit}> Submit </button>
-                <p className={this.state.resultClassName}>{this.state.submitText}</p>
                 <button hidden={!this.state.isHiddenBtnNext} className="btn-success GreenBtn" type="button" onClick={this.handleNextQuestion}>Next</button>
                 <button hidden={!this.state.isGetResultsButtonVisible} className="btn-success GreenBtn" type="button" onClick={this.GetResults}>Get Result</button>
+                <br />
+                <br />
+                <p className={this.state.resultClassName}>{this.state.submitText}</p>
             </ul>
-            <br/>
+            <br />
             <div hidden={!this.state.isResultsVisible}>
                 <p>Well done {this.state.userName}!</p>
                 <p>You got {Points} points</p>
@@ -165,7 +166,9 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         this.setState({ isDisabledBtnRadio: false });
         this.setState({ isHiddenBtnSubmit: true });
         this.setState({ progressClassBar: 'progress-bar progress-bar-striped active' })
-        document.getElementById('progressbar')!.style.width = count / this.state.questions.length * 100 + '%';
+        let progressBarStyle = document.getElementById('progressbar')!.style;
+        progressBarStyle.width = 0 + '%';
+        progressBarStyle.color = "black";
     }
 
     StartQuiz(event: any) {
@@ -198,14 +201,16 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
     }
 
     checkIfLastQuestion(Points: number) {
-     
+
         if (this.state.counter + 1 == this.state.questions.length) {
             let count = this.state.counter + 1;
             this.setState({ isHiddenBtnNext: false });
             this.setState({ isGetResultsButtonVisible: true });
             this.submitScore(Points);
             this.setState({ progressClassBar: 'progress-bar progress-bar-success ' })
-            document.getElementById('progressbar')!.style.width = count / this.state.questions.length * 100 + '%';
+            let progressBarStyle = document.getElementById('progressbar')!.style;
+            progressBarStyle.width = count / this.state.questions.length * 100 + '%';
+            progressBarStyle.color = "white";
         }
     }
 
@@ -233,8 +238,10 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
         this.setState({ isHiddenBtnSubmit: true });
         this.setState({ isDisabledBtnRadio: false });
         this.setState({ progressClassBar: 'progress-bar progress-bar-striped active' })
-        document.getElementById('progressbar')!.style.width = count / this.state.questions.length * 100 + '%';
-        
+        let progressBarStyle = document.getElementById('progressbar')!.style;
+        progressBarStyle.width = count / this.state.questions.length * 100 + '%';
+        progressBarStyle.color = "white";
+
     }
 
     submitScore(Points: number) {
