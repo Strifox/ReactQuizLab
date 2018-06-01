@@ -38,11 +38,14 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
     public render() {
         return (
             <div>
-                <h1>Add Question</h1>
+                <h1 className="questionLabel">Add Question</h1>
+                <br/>
                 <div className="AddQuestion">
                     <label>Question</label>
                     <br />
-                    <input type="text"
+                    <input
+                        className="textBox"
+                        type="text"
                         placeholder="Skriv in din fråga"
                         value={this.state._question}
                         onChange={this.handleChangeQuestion} />
@@ -51,7 +54,9 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
                 <div className="Answer">
                     <label>Answer A</label>
                     <br />
-                    <input type="text"
+                    <input
+                        className="textBox"
+                        type="text"
                         placeholder="Alternative A"
                         value={this.state.answerA}
                         onChange={this.handleChangeAnswerA} />
@@ -60,7 +65,9 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
                 <div className="Answer">
                     <label>Answer B</label>
                     <br />
-                    <input type="text"
+                    <input
+                        className="textBox"
+                        type="text"
                         placeholder="Alternative B"
                         value={this.state.answerB}
                         onChange={this.handleChangeAnswerB} />
@@ -69,7 +76,9 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
                 <div className="Answer">
                     <label>Answer C</label>
                     <br />
-                    <input type="text"
+                    <input
+                        className="textBox"
+                        type="text"
                         placeholder="Alternative C"
                         value={this.state.answerC}
                         onChange={this.handleChangeAnswerC} />
@@ -78,7 +87,9 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
                 <div className="Answer">
                     <label>Answer D</label>
                     <br />
-                    <input type="text"
+                    <input
+                        className="textBox"
+                        type="text"
                         placeholder="Alternative D"
                         value={this.state.answerD}
                         onChange={this.handleChangeAnswerD} />
@@ -87,13 +98,15 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
                 <div className="CorrectAnswer">
                     <label>Correct Answer</label>
                     <br />
-                    <input type="text"
+                    <input
+                        className="textBox"
+                        type="text"
                         placeholder="Correct Answer"
                         value={this.state.correctAnswer}
                         onChange={this.handleCorrectAnswer} />
                 </div>
                 <br />
-                <button className="btn btn-default" onClick={this.fetchAddQuestion}>Add Question</button>
+                <button className="btn btn-success" onClick={this.fetchAddQuestion}>Add Question</button>
             </div>
         )
     }
@@ -124,6 +137,12 @@ export class AddQuestion extends React.Component<RouteComponentProps<{}>, IAddQu
             .then(Response => { console.log(Response.json())})
             .catch(message => { console.log('Error' + message); });
         this.setState({ hasFetchedData: false });
+        this.setState({ _question: '' });
+        this.setState({ answerA: '' });
+        this.setState({ answerB: '' });
+        this.setState({ answerC: '' });
+        this.setState({ answerD: '' });
+        this.setState({ correctAnswer: '' });
 
     }
 }

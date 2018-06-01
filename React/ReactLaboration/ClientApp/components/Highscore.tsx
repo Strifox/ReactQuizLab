@@ -56,7 +56,7 @@ export class Highscore extends React.Component<RouteComponentProps<{}>, IScoreSt
                 {score.map(score =>
                     <tr key={score.userName}>
                         <td>{score.points}</td>
-                        <td>{score.userName}!</td>
+                        <td>{score.userName}</td>
                     </tr>
                 )}
             </tbody>

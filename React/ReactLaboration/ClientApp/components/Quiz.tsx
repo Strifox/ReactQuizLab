@@ -84,10 +84,9 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
 
     public renderQuestionTable(question: Question[], counter1: number) {
         return <div>
-            <h3 hidden={!this.state.isNameTextboxAndLabelVisible}>Skriv in ditt namn:</h3>
-            <input type="text" onChange={this.handleChangeName} name="username" hidden={!this.state.isNameTextboxAndLabelVisible}></input>
-
-            <input type="button" onClick={this.StartQuiz} value="Start Quiz!" hidden={!this.state.isStartQuizVisible}></input>
+            <h3 hidden={!this.state.isNameTextboxAndLabelVisible} className="nameLabel">Skriv in ditt namn:</h3>
+            <input type="text" onChange={this.handleChangeName } className="nameInput" name="username" hidden={!this.state.isNameTextboxAndLabelVisible}></input>
+            <button className="btn-success GreenBtn" type="button" onClick={this.StartQuiz} hidden={!this.state.isStartQuizVisible}> Start Quiz!</button>
 
             <ul className="list-group" hidden={!this.state.isQuizVisible}>
                 <div className="list-group-item"><h3>{question[counter1]._question}</h3><span className="questionCounter">{counter1 + 1} / {question.length}</span></div>
@@ -124,10 +123,10 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
                         checked={this.state.selectedAnswer === question[counter1].answerD}
                         value={question[counter1].answerD} /> {question[counter1].answerD}</label>
                 <br/>
-            <button hidden={!this.state.isHiddenBtnSubmit} onClick={this.Submit}> Submit </button>
+                <button hidden={!this.state.isHiddenBtnSubmit} className="btn-success GreenBtn" onClick={this.Submit}> Submit </button>
             <p>{this.state.submitText}</p>
-                <input hidden={!this.state.isHiddenBtnNext} type="button" value="Next" onClick={this.handleNextQuestion}></input>
-                <input hidden={!this.state.isGetResultsButtonVisible} type="button" value="Get results" onClick={this.GetResults}></input>
+                <button hidden={!this.state.isHiddenBtnNext} className="btn-success GreenBtn" type="button" onClick={this.handleNextQuestion}>Next</button>
+                <button hidden={!this.state.isGetResultsButtonVisible} className="btn-success GreenBtn" type="button" onClick={this.GetResults}>Get Result</button>
                 <div hidden={!this.state.isResultsVisible}>
                     <p>Well done {this.state.userName}!</p>
                     <p>You got {Points} points</p>
