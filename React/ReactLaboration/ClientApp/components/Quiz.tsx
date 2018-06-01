@@ -96,7 +96,7 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             <ul className="list-group" hidden={!this.state.isQuizVisible}>
                
                 <div className="list-group-item"><h3>{question[counter1]._question}</h3><span className="questionCounter"> <div className="progress">
-                    <div id="progressbar" className={this.state.progressClassBar} role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">{counter1 + 1} / {question.length}
+                    <div id="progressbar" className={this.state.progressClassBar} role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">{counter1 + 1} / {question.length}
                         <span className="sr-only"></span>
                     </div>
                 </div></span></div>
@@ -186,7 +186,6 @@ export class Quiz extends React.Component<IQuizQuestionProps, IQuizQuestionState
             this.setState({ resultClassName: 'correct' });
             this.setState({ submitText: "Correct" })
             console.log('Correct answer!');
-        
             this.checkIfLastQuestion(Points);
         }
         else {
