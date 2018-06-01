@@ -6,14 +6,10 @@
 .main-nav li a.active,
 .main-nav li a.active:hover,
 .main-nav li a.active:focus {
-    background-color: #4189C7;
+    background-color: #5cb85c;
     color: white;
 }
 
-.questionCounter {
-    margin: 0px;
-    padding: 0px;
-}
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
@@ -22,6 +18,45 @@
     left: 0;
     right: 0;
     z-index: 1;
+    
+}
+
+.AddQuestion{
+    margin-bottom: 20px;
+}
+
+.textBox {
+    border: ridge 2px lightgreen;
+    border-radius: 5px;
+    font-family: Dubai;
+}
+
+.Answer{
+    margin-top: -10px;
+}
+
+.CorrectAnswer{
+    margin-top: 10px;
+}
+.questionLabel {
+    font-family: Dubai;
+}
+
+.questionCounter {
+    margin: 0px;
+    padding: 0px;
+}
+
+.nameInput{
+    border: ridge 2px lightgreen;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+.GreenBtn {
+    border-radius: 5px;
+}
+.nameLabel{
+    font-family: Dubai;
 }
 
 @media (max-width: 767px) {
